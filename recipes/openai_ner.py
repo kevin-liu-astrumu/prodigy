@@ -20,6 +20,7 @@ from recipes.azure_openai import read_prompt_examples
 
 CSS_FILE_PATH = Path(__file__).parent / "style.css"
 DEFAULT_PROMPT_PATH = Path(__file__).parent.parent / "templates" / "ner_prompt.jinja2"
+# DEFAULT_PROMPT_PATH = Path(__file__).parent.parent / "templates" / "Kor_format.jinja2"
 HTML_TEMPLATE = """
 <div class="cleaned">
   <details>

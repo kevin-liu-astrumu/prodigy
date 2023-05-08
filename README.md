@@ -67,7 +67,7 @@ prodigy db-out ner_news_headlines > ./annotations.jsonl
 
 #### Use case 2: NER annotation with OpenAI as auto-annotator
 ```bash
-prodigy ner.openai.correct ner_correct_test data/reddit_r_cooking_sample.jsonl "ingredient,dish,equipment" -F recipes/openai_ner.py
+prodigy ner.openai.correct ner_correct_test data/jd_data.jsonl "skill" -F recipes/openai_ner.py -p templates/ner_prompt.jinja2 -e examples/skill_ner.yaml
 ```
 Components in the above command:
 
@@ -75,6 +75,22 @@ Components in the above command:
     <li> ner.openai.correct: a new defined recipt associated with the recipets following -F. </li>
     <li> -F recipts/openai_ner.py a python file to suggest annotation. </li>
 </ul>
+
+More details and other parameters are listed in table below: 
+
+| Argument                | Type | Description                                                                                                                                     | Default                         |
+| ----------------------- | ---- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
+| `dataset`               | str  | Prodigy dataset to save annotations to.                                                                                                         |                                 |
+| `filepath`              | Path | Path to `.jsonl` data to annotate. The data should at least contain a `"text"` field.                                                           |                                 |
+| `labels`                | str  | Comma-separated list defining the NER labels the model should predict.                                                                          |                                 |
+| `--lang`, `-l`          | str  | Language of the input data - will be used to obtain a relevant tokenizer.                                                                       | `"en"`                          |
+| `--segment`, `-S`       | bool | Flag to set when examples should be split into sentences. By default, the full input article is shown.                                          | `False`                         |
+| `--model`, `-m`         | str  | GPT-3 model to use for initial predictions.                                                                                                     | `"text-davinci-003"`            |
+| `--prompt_path`, `-p`   | Path | Path to the `.jinja2` [prompt template](templates).                                                                                             | `./templates/ner_prompt.jinja2` |
+| `--examples-path`, `-e` | Path | Path to examples to help define the task. The file can be a .yml, .yaml or .json. If set to `None`, zero-shot learning is applied.              | `None`                          |
+| `--max-examples`, `-n`  | int  | Max number of examples to include in the prompt to OpenAI. If set to 0, zero-shot learning is always applied, even when examples are available. | 2                               |
+| `--batch-size`, `-b`    | int  | Batch size of queries to send to the OpenAI API.                                                                                                | 10                              |
+| `--verbose`, `-v`       | bool | Flag to print extra information to the terminal.                                                                                                | `False`                         |
 
 
 ## Properly shut down the annotation
@@ -91,3 +107,5 @@ And kill the previous session using
 ```
 kill -9 {PID}
 ```
+
+Notice that the templates/Kor_format.jinja2 is not working at this point. 
