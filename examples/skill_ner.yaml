@@ -1,0 +1,10 @@
+- text: "perform comparative market analysis to estimate properties."
+
+  entities:
+    skill:
+      - perform comparative market analysis
+
+- text: "ability to work independently combined with excellent interpersonal skills"
+
+  entities:
+    skill: ["work independently", "interpersonal skills"]

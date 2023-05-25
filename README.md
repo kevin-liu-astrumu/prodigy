@@ -20,11 +20,7 @@
 
 <!-- Requirement -->
 ## Requirement 
-The prodigy requires Python 3.6 and above. Run the following commands if you want to enable the openai auto-annotation.
-
-```bash 
-python -m pip install -r requirements.txt
-```
+The prodigy requires Python 3.6 and above.
 
 <!-- Setup -->
 ## Setup
@@ -32,6 +28,7 @@ Use following commands to create a virtual environment.
 ```base 
 conda create --name prodigy python=3.9
 conda activate prodigy
+python -m pip install -r requirements.txt
 ```
 
 <!-- Installation -->
@@ -43,7 +40,14 @@ pip install prodigy -f https://[license key]@download.prodi.gy
 
 <!-- Usage -->
 ## Usage 
-#### Use case 1: NER annotation from scratch example
+#### Use case 1: Sentence classification annotation from scratch example
+
+Start an annotation job:
+```bash
+prodigy textcat.manual job_description_classification /Users/kevinliu/Desktop/workspace/prodigy_annotation/data/annotation_task/sentence_classfication.jsonl --label requirement,descriptions,others
+```
+
+#### Use case 2: NER annotation from scratch example
 
 Start an annotation job: 
 ```bash
@@ -60,14 +64,10 @@ Components in the above command:
      <li> --label PERSON,ORG,PRODUCT,LOCATION: comma-separated list of label options (PERSON, ORG, PRODUCT AND LOCATION) </li>
 </ul>
 
-Check annotation data 
-```bash 
-prodigy db-out ner_news_headlines > ./annotations.jsonl
-```
-
-#### Use case 2: NER annotation with OpenAI as auto-annotator
+#### Use case 3: NER annotation with OpenAI as auto-annotator
 ```bash
-prodigy ner.openai.correct ner_correct_test data/jd_data.jsonl "skill" -F recipes/openai_ner.py -p templates/ner_prompt.jinja2 -e examples/skill_ner.yaml
+export OPENAI_KEY=$OPENAI_KEY
+prodigy ner.openai.correct ner_correct_test data/annotation_task/job_description_ner_sample.jsonl "skill" -F recipes/openai_ner.py -p templates/skill_ner.jinja2 -e examples/skill_ner.yaml
 ```
 Components in the above command:
 
@@ -85,13 +85,21 @@ More details and other parameters are listed in table below:
 | `labels`                | str  | Comma-separated list defining the NER labels the model should predict.                                                                          |                                 |
 | `--lang`, `-l`          | str  | Language of the input data - will be used to obtain a relevant tokenizer.                                                                       | `"en"`                          |
 | `--segment`, `-S`       | bool | Flag to set when examples should be split into sentences. By default, the full input article is shown.                                          | `False`                         |
-| `--model`, `-m`         | str  | GPT-3 model to use for initial predictions.                                                                                                     | `"text-davinci-003"`            |
 | `--prompt_path`, `-p`   | Path | Path to the `.jinja2` [prompt template](templates).                                                                                             | `./templates/ner_prompt.jinja2` |
 | `--examples-path`, `-e` | Path | Path to examples to help define the task. The file can be a .yml, .yaml or .json. If set to `None`, zero-shot learning is applied.              | `None`                          |
 | `--max-examples`, `-n`  | int  | Max number of examples to include in the prompt to OpenAI. If set to 0, zero-shot learning is always applied, even when examples are available. | 2                               |
 | `--batch-size`, `-b`    | int  | Batch size of queries to send to the OpenAI API.                                                                                                | 10                              |
 | `--verbose`, `-v`       | bool | Flag to print extra information to the terminal.                                                                                                | `False`                         |
 
+#### Annotation guidence
+Note the OpenAI GPT model might not extract entities exactly the same as they appeared in the context. Two tasks need to accomplished using this annotation tool.
+
+<ul>
+    <li> Accept/Reject the OpenAI annotation. We need to check the OpenAI response to decide if the annotation is accepted or not. This metric will help us to compute the accuracy of using the OpenAI GPT model on entity extraction. </li>
+    <li> We would need to annotate on the raw text. This will help us create training data for training our in-house NER model. </li>
+</ul>
+
+As we conduct the annotation task, we could include more rejected examples in the annotation examples to increase the accuracy of using the OpenAI GPT model. 
 
 ## Properly shut down the annotation
 To close the annotation, we need to use 'Ctrl' + 'C' every time you finish the annotation task. 
@@ -108,4 +116,21 @@ And kill the previous session using
 kill -9 {PID}
 ```
 
-Notice that the templates/Kor_format.jinja2 is not working at this point. 
+## More about dababase
+
+#### Check existing database
+```bash 
+prodigy stats -l
+```
+
+#### Output annotation data 
+```bash 
+prodigy db-out $database > $Annotation_jsonl
+```
+
+#### Drop unused database
+```bash 
+prodigy drop $DATABASE_NAME
+```
+
+More operations about sqlite can be found [here](https://www.sqlitetutorial.net/sqlite-commands/).
