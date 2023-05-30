@@ -67,7 +67,7 @@ Components in the above command:
 #### Use case 3: NER annotation with OpenAI as auto-annotator
 ```bash
 export OPENAI_KEY=$OPENAI_KEY
-prodigy ner.openai.correct ner_correct_test data/annotation_task/job_description_ner_sample.jsonl "skill" -F recipes/openai_ner.py -p templates/skill_ner.jinja2 -e examples/skill_ner.yaml
+prodigy ner.openai.correct ner_correct_test data/annotation_task/IT_first_100.jsonl "skill" -F recipes/openai_ner.py -p templates/skill_ner.jinja2 -e examples/skill_ner.yaml
 ```
 Components in the above command:
 
