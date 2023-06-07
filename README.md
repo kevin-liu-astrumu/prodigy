@@ -90,6 +90,11 @@ More details and other parameters are listed in table below:
 | `--max-examples`, `-n`  | int  | Max number of examples to include in the prompt to OpenAI. If set to 0, zero-shot learning is always applied, even when examples are available. | 2                               |
 | `--batch-size`, `-b`    | int  | Batch size of queries to send to the OpenAI API.                                                                                                | 10                              |
 | `--verbose`, `-v`       | bool | Flag to print extra information to the terminal.                                                                                                | `False`                         |
+Command to generate the multi-categories NER annotation:
+```bash
+ prodigy ner.openai.correct ner_correct_test data/annotation_task/IT_first_100.jsonl "education_requirement,technical_requirement,softskill_requirement" -F recipes/openai_ner.py -p templates/skill_ner.jinja2 -e examples/skill_ner_multiple_categories.yaml
+``` 
+
 
 #### Annotation guidence
 Note the OpenAI GPT model might not extract entities exactly the same as they appeared in the context. Two tasks need to accomplished using this annotation tool.

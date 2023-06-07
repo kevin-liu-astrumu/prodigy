@@ -1,0 +1,10 @@
+- text: "perform comparative market analysis to estimate properties."
+
+  entities:
+    technical_requirement:
+      - perform comparative market analysis
+
+- text: "ability to work independently combined with excellent interpersonal skills"
+
+  entities:
+    softskill_requirement: ["work independently", "interpersonal skills"]
