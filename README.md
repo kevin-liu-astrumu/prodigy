@@ -92,7 +92,7 @@ More details and other parameters are listed in table below:
 | `--verbose`, `-v`       | bool | Flag to print extra information to the terminal.                                                                                                | `False`                         |
 Command to generate the multi-categories NER annotation:
 ```bash
- prodigy ner.openai.correct ner_correct_test data/annotation_task/IT_first_100.jsonl "education_requirement,technical_requirement,softskill_requirement" -F recipes/openai_ner.py -p templates/skill_ner.jinja2 -e examples/skill_ner_multiple_categories.yaml
+ prodigy ner.openai.correct ner_multiple_choice data/annotation_task/IT_first_100.jsonl "education_requirement,technical_requirement,softskill_requirement" -F recipes/openai_ner.py -p templates/skill_ner.jinja2 -e examples/skill_ner_multiple_categories.yaml
 ``` 
 
 
