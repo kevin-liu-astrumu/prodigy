@@ -8,3 +8,14 @@
 
   entities:
     softskill_requirement: ["work independently", "interpersonal skills"]
+
+- text: "Strong development skills in Node"
+
+  entities:
+    technical_requirement: ["Node"]
+
+- text: "Bachelor's / Master's degree (or equivalent) in Accounting or Finance"
+
+  entities:
+    education_requirement:
+      ["Bachelor's / Master's degree (or equivalent) in Accounting or Finance"]
